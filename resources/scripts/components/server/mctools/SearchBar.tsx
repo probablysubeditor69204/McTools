@@ -39,7 +39,7 @@ const SearchBar = ({ value, onChange, placeholder, provider, setProvider, page, 
                     value={value}
                     onChange={e => onChange(e.target.value)}
                     placeholder={placeholder}
-                    css={tw`appearance-none outline-none w-full min-w-0 p-3 pl-10 border-2 rounded text-sm transition-all duration-150 bg-neutral-600 border-neutral-500 hover:border-neutral-400 text-neutral-200 shadow-none focus:ring-0 focus:shadow-md focus:border-primary-300 focus:ring-2 focus:ring-primary-400`}
+                    css={tw`appearance-none outline-none w-full min-w-0 p-3 pl-10 border-2 rounded text-sm transition-all duration-150 bg-neutral-600 border-neutral-500 hover:border-neutral-400 text-neutral-200 shadow-none focus:ring-0 focus:shadow-md focus:border-cyan-300 focus:ring-2 focus:ring-cyan-400`}
                 />
             </div>
 
@@ -51,7 +51,7 @@ const SearchBar = ({ value, onChange, placeholder, provider, setProvider, page, 
                         onClick={() => setProvider(provider === 'modrinth' ? 'curseforge' : 'modrinth')}
                         css={tw`px-3 py-2 bg-neutral-700 hover:bg-neutral-600 rounded text-sm text-neutral-300 transition-colors duration-150`}
                     >
-                        Provider: <span css={tw`font-bold text-primary-400`}>{provider}</span>
+                        Provider: <span css={tw`font-bold text-cyan-400`}>{provider}</span>
                     </button>
 
                     {/* Sort Dropdown */}
@@ -72,7 +72,7 @@ const SearchBar = ({ value, onChange, placeholder, provider, setProvider, page, 
                                         onClick={() => { onSortChange(s.value); setShowSort(false); }}
                                         css={[
                                             tw`px-4 py-2 text-sm cursor-pointer transition-colors duration-150`,
-                                            sort === s.value ? tw`bg-primary-600 text-white` : tw`text-neutral-300 hover:bg-neutral-600`
+                                            sort === s.value ? tw`bg-cyan-600 text-white` : tw`text-neutral-300 hover:bg-neutral-600`
                                         ]}
                                     >
                                         {s.label}
@@ -91,7 +91,7 @@ const SearchBar = ({ value, onChange, placeholder, provider, setProvider, page, 
                             disabled={page === 1}
                             css={[
                                 tw`w-8 h-8 flex items-center justify-center rounded text-sm font-medium transition-colors duration-150`,
-                                page === 1 ? tw`bg-primary-600 text-white` : tw`bg-neutral-700 text-neutral-300 hover:bg-neutral-600`
+                                page === 1 ? tw`bg-cyan-600 text-white` : tw`bg-neutral-700 text-neutral-300 hover:bg-neutral-600`
                             ]}
                         >
                             1
@@ -99,7 +99,7 @@ const SearchBar = ({ value, onChange, placeholder, provider, setProvider, page, 
                         {page > 2 && <span css={tw`text-neutral-500 text-sm px-1`}>...</span>}
                         {page !== 1 && page !== totalPages && (
                             <button
-                                css={tw`w-8 h-8 flex items-center justify-center rounded bg-primary-600 text-white text-sm font-medium`}
+                                css={tw`w-8 h-8 flex items-center justify-center rounded bg-cyan-600 text-white text-sm font-medium`}
                             >
                                 {page}
                             </button>
@@ -111,7 +111,7 @@ const SearchBar = ({ value, onChange, placeholder, provider, setProvider, page, 
                                 disabled={page === totalPages}
                                 css={[
                                     tw`w-8 h-8 flex items-center justify-center rounded text-sm font-medium transition-colors duration-150`,
-                                    page === totalPages ? tw`bg-primary-600 text-white` : tw`bg-neutral-700 text-neutral-300 hover:bg-neutral-600`
+                                    page === totalPages ? tw`bg-cyan-600 text-white` : tw`bg-neutral-700 text-neutral-300 hover:bg-neutral-600`
                                 ]}
                             >
                                 {totalPages}

@@ -54,7 +54,7 @@ const MctoolsCard = ({ item, onInstall }: Props) => {
             <div css={tw`ml-4`}>
                 <button
                     onClick={onInstall}
-                    css={tw`bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded text-sm font-medium transition-colors duration-150`}
+                    css={tw`bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded text-sm font-medium transition-colors duration-150`}
                 >
                     <FontAwesomeIcon icon={faDownload} css={tw`mr-2`} />
                     Install

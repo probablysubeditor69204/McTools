@@ -17,7 +17,7 @@ const CategoryTabs = ({ categories, active, onChange }: Props) => {
                     css={[
                         tw`px-4 py-2 rounded text-sm font-medium transition-colors duration-150`,
                         active === cat
-                            ? tw`bg-primary-600 text-white`
+                            ? tw`bg-cyan-600 text-white`
                             : tw`bg-neutral-700 text-neutral-300 hover:bg-neutral-600`
                     ]}
                 >
