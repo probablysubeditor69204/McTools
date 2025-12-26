@@ -263,6 +263,7 @@ class MctoolsController extends ClientApiController
         $versionId = $request->input('version_id');
         $provider = $request->input('provider', 'modrinth');
         $category = $request->input('category', 'Mods');
+        $itemName = $request->input('item_name', 'Unknown');
 
         $directory = match($category) {
             'Mods' => '/mods',
@@ -274,6 +275,9 @@ class MctoolsController extends ClientApiController
         };
 
         try {
+            $versionName = null;
+            $fileSize = 0;
+
             if ($provider === 'modrinth') {
                 $client = $this->httpClient['modrinth'];
                 
@@ -282,6 +286,7 @@ class MctoolsController extends ClientApiController
                     $response = $client->get("version/{$versionId}");
                     $version = json_decode($response->getBody()->getContents(), true);
                     $file = $version['files'][0];
+                    $versionName = $version['name'] ?? $version['version_number'] ?? null;
                 } else {
                     // Fallback to latest version
                     $response = $client->get("project/{$id}/version");
@@ -291,10 +296,12 @@ class MctoolsController extends ClientApiController
                         return response()->json(['error' => 'No versions found for this item.'], 404);
                     }
                     $file = $versions[0]['files'][0];
+                    $versionName = $versions[0]['name'] ?? $versions[0]['version_number'] ?? null;
                 }
                 
                 $downloadUrl = $file['url'];
                 $fileName = $file['filename'];
+                $fileSize = $file['size'] ?? 0;
             } else if ($provider === 'curseforge') {
                 $client = $this->httpClient['curseforge'];
                 
@@ -316,6 +323,8 @@ class MctoolsController extends ClientApiController
 
                 $downloadUrl = $file['downloadUrl'];
                 $fileName = $file['fileName'];
+                $fileSize = $file['fileLength'] ?? 0;
+                $versionName = $file['displayName'] ?? null;
             } else {
                 return response()->json(['error' => 'Unsupported provider.'], 400);
             }
@@ -325,6 +334,18 @@ class MctoolsController extends ClientApiController
                 $directory,
                 ['foreground' => true]
             );
+
+            // Log the download for statistics
+            \Pterodactyl\Models\MctoolsDownload::create([
+                'item_id' => $id,
+                'item_name' => $itemName,
+                'version_id' => $versionId,
+                'version_name' => $versionName,
+                'provider' => $provider,
+                'category' => $category,
+                'file_size' => $fileSize,
+                'server_id' => $server->id,
+            ]);
 
             return response()->json(['success' => true, 'message' => "Successfully started installation of {$fileName} on your server."]);
 

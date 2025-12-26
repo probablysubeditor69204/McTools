@@ -45,7 +45,13 @@ export default () => {
 
     const onInstall = (id: string, versionId: string, itemProvider: string) => {
         clearFlashes('mctools:install');
-        axios.post(`/api/client/servers/${uuid}/mctools/install`, { id, version_id: versionId, provider: itemProvider, category })
+        axios.post(`/api/client/servers/${uuid}/mctools/install`, {
+            id,
+            version_id: versionId,
+            provider: itemProvider,
+            category,
+            item_name: items.find(item => item.id === id)?.name || 'Unknown'
+        })
             .then(({ data }) => {
                 addFlash({ type: 'success', key: 'mctools:install', message: data.message });
             })
