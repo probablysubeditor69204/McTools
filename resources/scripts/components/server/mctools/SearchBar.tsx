@@ -87,40 +87,56 @@ const SearchBar = ({ value, onChange, placeholder, provider, setProvider, page, 
                 {totalPages > 1 && (
                     <div css={tw`flex items-center space-x-1`}>
                         <button
-                            onClick={() => onPageChange(1)}
                             disabled={page === 1}
-                            css={[
-                                tw`w-8 h-8 flex items-center justify-center rounded text-sm font-medium transition-colors duration-150`,
-                                page === 1 ? tw`bg-cyan-600 text-white` : tw`bg-neutral-700 text-neutral-300 hover:bg-neutral-600`
-                            ]}
+                            onClick={() => onPageChange(page - 1)}
+                            css={tw`w-8 h-8 flex items-center justify-center rounded bg-neutral-700 text-neutral-300 hover:bg-neutral-600 transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed`}
                         >
-                            1
+                            <FontAwesomeIcon icon={faChevronRight} css={tw`text-xs transform rotate-180`} />
                         </button>
-                        {page > 2 && <span css={tw`text-neutral-500 text-sm px-1`}>...</span>}
-                        {page !== 1 && page !== totalPages && (
-                            <button
-                                css={tw`w-8 h-8 flex items-center justify-center rounded bg-cyan-600 text-white text-sm font-medium`}
-                            >
-                                {page}
-                            </button>
+
+                        {[...Array(Math.min(totalPages, 3))].map((_, i) => {
+                            const pageNum = i + 1;
+                            return (
+                                <button
+                                    key={pageNum}
+                                    onClick={() => onPageChange(pageNum)}
+                                    css={[
+                                        tw`w-8 h-8 flex items-center justify-center rounded text-sm font-medium transition-colors duration-150`,
+                                        page === pageNum ? tw`bg-cyan-600 text-white` : tw`bg-neutral-700 text-neutral-300 hover:bg-neutral-600`
+                                    ]}
+                                >
+                                    {pageNum}
+                                </button>
+                            );
+                        })}
+
+                        {totalPages > 3 && (
+                            <>
+                                {page > 3 && <span css={tw`text-neutral-500 text-sm px-1`}>...</span>}
+                                {page > 3 && page < totalPages && (
+                                    <button
+                                        css={tw`w-8 h-8 flex items-center justify-center rounded bg-cyan-600 text-white text-sm font-medium`}
+                                    >
+                                        {page}
+                                    </button>
+                                )}
+                                {page < totalPages - 1 && <span css={tw`text-neutral-500 text-sm px-1`}>...</span>}
+                                <button
+                                    onClick={() => onPageChange(totalPages)}
+                                    css={[
+                                        tw`w-8 h-8 flex items-center justify-center rounded text-sm font-medium transition-colors duration-150`,
+                                        page === totalPages ? tw`bg-cyan-600 text-white` : tw`bg-neutral-700 text-neutral-300 hover:bg-neutral-600`
+                                    ]}
+                                >
+                                    {totalPages}
+                                </button>
+                            </>
                         )}
-                        {page < totalPages - 1 && <span css={tw`text-neutral-500 text-sm px-1`}>...</span>}
-                        {totalPages > 1 && (
-                            <button
-                                onClick={() => onPageChange(totalPages)}
-                                disabled={page === totalPages}
-                                css={[
-                                    tw`w-8 h-8 flex items-center justify-center rounded text-sm font-medium transition-colors duration-150`,
-                                    page === totalPages ? tw`bg-cyan-600 text-white` : tw`bg-neutral-700 text-neutral-300 hover:bg-neutral-600`
-                                ]}
-                            >
-                                {totalPages}
-                            </button>
-                        )}
+
                         <button
                             disabled={page === totalPages}
                             onClick={() => onPageChange(page + 1)}
-                            css={tw`ml-1 w-8 h-8 flex items-center justify-center rounded bg-neutral-700 text-neutral-300 hover:bg-neutral-600 transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed`}
+                            css={tw`w-8 h-8 flex items-center justify-center rounded bg-neutral-700 text-neutral-300 hover:bg-neutral-600 transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed`}
                         >
                             <FontAwesomeIcon icon={faChevronRight} css={tw`text-xs`} />
                         </button>
